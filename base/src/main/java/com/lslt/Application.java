@@ -1,10 +1,5 @@
 package com.lslt;
 
-import com.lslt.thread.MyRunnable;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /**
  * @author lslt
  * @description
@@ -24,13 +19,13 @@ public class Application {
 //        t.start();
 
         //3.使用executor框架创建线程
-        ExecutorService executorService = Executors.newFixedThreadPool(3);
-        for (int i = 0; i < 5; i++) {
-            executorService.execute(new MyRunnable());
-        }
-        executorService.shutdown();
-
-        //4.实现Callable 接口
+//        ExecutorService executorService = Executors.newFixedThreadPool(3);
+//        for (int i = 0; i < 5; i++) {
+//            executorService.execute(new MyRunnable());
+//        }
+//        executorService.shutdown();
+//
+//        //4.实现Callable 接口
 //        try {
 //            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 //            Future<List<Integer>> future = executor.submit(new MyCallable());
@@ -42,6 +37,15 @@ public class Application {
 //        } catch (InterruptedException | ExecutionException e) {
 //            e.printStackTrace();
 //        }
+
+
+        Thread thread = new Thread(()->{
+            System.out.println("执行thread中所在线程组的名字："+Thread.currentThread().getThreadGroup().getName());
+            System.out.println("执行thread线程的名字："+Thread.currentThread().getName());
+        });
+        thread.start();
+        System.out.println("执行main方法所在线程组的名字：" +Thread.currentThread().getThreadGroup().getName());
+        System.out.println("执行main方法线程的名字：" +Thread.currentThread().getName());
 
     }
 }
