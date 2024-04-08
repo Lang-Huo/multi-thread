@@ -23,7 +23,7 @@ public class Producer implements Runnable{
         while (true){
             synchronized (queue){
                 //生产者等待
-                if (queue.size() == CAPACITY){
+                while (queue.size() == CAPACITY){
                     System.out.println(Thread.currentThread().getName()+"队列已满，等待消费者消费...");
                     try {
                         queue.wait();
@@ -34,6 +34,7 @@ public class Producer implements Runnable{
                 System.out.println(Thread.currentThread().getName() + "生产者生产数据：" + ++value);
                 queue.offer(value);
                 //唤醒消费者
+                System.out.println(Thread.currentThread().getName()+"队列容量："+queue.size());
 
                 queue.notify();
             }

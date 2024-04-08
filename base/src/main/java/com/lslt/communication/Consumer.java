@@ -22,7 +22,9 @@ public class Consumer implements Runnable {
         while (true){
             synchronized (queue){
                 //消费者休息
-                if (queue.isEmpty()){
+                //如果有多个消费者，当生产者生产一个消息后，唤醒消费者，但是被其他消费者消费了，代码会从wait方法处继续往下执行，导致消费了不存在的消息。
+                //因此需要循环判断，是否还有消息，如果没有就继续等待。生产者也是类似。只要生产者和消费者者总数大于2就会出现这样的情况。
+                while (queue.isEmpty()){
                     System.out.println(Thread.currentThread().getName()+"队列已空，等待生产者生产...");
                     try {
                         queue.wait();
